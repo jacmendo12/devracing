@@ -4,6 +4,14 @@ Tic-tac-toe donde **cada jugada compra un pixel real** en frontpage.sh/million (
 
 ![interfaz web del gato](screenshot.png)
 
+## 🔴 Partida LIVE — jugada con USDC real
+
+La misma partida vista desde la interfaz y desde el **canvas real** de frontpage.sh/million (pixeles comprados on-chain en Tempo, X coral / O morado, tablero en (582,465)–(588,471)):
+
+| Interfaz (modo live) | Canvas real |
+|---|---|
+| ![partida live en la UI](partida-live-ui.png) | ![pixeles reales en el canvas](partida-live-canvas.png) |
+
 ## Diseño con la economía en mente
 
 - En el gato una casilla jugada **nunca se reescribe** → máximo 9 compras por partida.
