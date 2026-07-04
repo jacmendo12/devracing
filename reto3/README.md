@@ -1,4 +1,4 @@
-# Reto 2 — ⭕❌ Gato en el canvas
+# Reto 3 — ⭕❌ Gato en el canvas
 
 Tic-tac-toe donde **cada jugada compra un pixel real** en frontpage.sh/million (USDC en Tempo vía MPP).
 
