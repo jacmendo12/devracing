@@ -56,13 +56,15 @@ def find_virgin_board(origin, spacing):
 
 
 def read_board(cells, overlay):
-    """Lee las 9 casillas del CANVAS (fuente de verdad). overlay = jugadas dry-run."""
+    """Lee las 9 casillas del CANVAS (fuente de verdad) en UNA sola llamada batch.
+    overlay = jugadas dry-run."""
+    idxs = ','.join(str(y * 1000 + x) for x, y in cells)
+    res = api(f'/api/million/pixel?idxs={idxs}')
     board = []
-    for i, (x, y) in enumerate(cells):
+    for i, p in enumerate(res['pixels']):
         if i in overlay:
-            board.append(overlay[i]); continue
-        p = api(f'/api/million/pixel?x={x}&y={y}')
-        if not p.get('owned'):
+            board.append(overlay[i])
+        elif not p.get('owned'):
             board.append(' ')
         else:
             board.append({X_RGB: 'X', O_RGB: 'O'}.get(p.get('rgb'), '?'))  # '?' = pixel robado por un tercero

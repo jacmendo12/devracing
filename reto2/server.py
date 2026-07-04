@@ -9,7 +9,7 @@ en 9 pixeles vírgenes nuevos.
   python3 server.py --live     # compras reales con USDC vía mppx
 """
 import argparse, json, threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from gato import api, find_virgin_board, read_board, buy_pixel, winner, bot_move, X_RGB, O_RGB
 
 S = {'cells': None, 'overlay': {}, 'spent': 0.0, 'total': 0.0, 'live': False,
@@ -200,7 +200,7 @@ async function toggleAuto() {
   auto = false; paint();
 }
 refresh();
-setInterval(() => { if (!busy) refresh(); }, 10000);  // el canvas es la fuente de verdad
+setInterval(() => { if (!busy && !auto) refresh(); }, 20000);  // el canvas es la fuente de verdad
 </script></body></html>'''
 
 
@@ -209,11 +209,18 @@ if __name__ == '__main__':
     ap.add_argument('--live', action='store_true')
     ap.add_argument('--email', default='javier@t-bit.io')
     ap.add_argument('--origin', default='494,465')
+    ap.add_argument('--resume', help='retomar tablero existente: x,y de la casilla 1 (sin buscar vírgenes)')
+    ap.add_argument('--spacing', type=int, default=3)
     ap.add_argument('--port', type=int, default=8787)
     a = ap.parse_args()
-    S['live'] = a.live; S['email'] = a.email
+    S['live'] = a.live; S['email'] = a.email; S['spacing'] = a.spacing
     S['origin'] = tuple(int(v) for v in a.origin.split(','))
-    print('buscando 9 pixeles vírgenes…')
-    new_board()
+    if a.resume:
+        x0, y0 = (int(v) for v in a.resume.split(','))
+        S['cells'] = [(x0 + c % 3 * a.spacing, y0 + c // 3 * a.spacing) for c in range(9)]
+        print(f'retomando tablero en ({x0},{y0})')
+    else:
+        print('buscando 9 pixeles vírgenes…')
+        new_board()
     print(f"⭕❌ Gato {'🔴 LIVE' if a.live else 'dry-run'} → http://localhost:{a.port}")
-    HTTPServer(('127.0.0.1', a.port), H).serve_forever()
+    ThreadingHTTPServer(('127.0.0.1', a.port), H).serve_forever()
