@@ -2,6 +2,8 @@
 
 Tic-tac-toe donde **cada jugada compra un pixel real** en frontpage.sh/million (USDC en Tempo vía MPP).
 
+![interfaz web del gato](screenshot.png)
+
 ## Diseño con la economía en mente
 
 - En el gato una casilla jugada **nunca se reescribe** → máximo 9 compras por partida.
